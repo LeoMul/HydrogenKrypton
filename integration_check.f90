@@ -5,8 +5,8 @@ program int_check
     implicit none
 
     real*8::rho,epsilon,h,energy,x_last,x_min,epsilon_prime,energy_prime,factor,x_to_check
-    real*8::delta,tandelta,k,sum,pi,new_x_diff,wavenumber,reduced_mass,hbar,mh,mkr,wavelength,r_max
-    real*8,allocatable::x_array(:),V_array(:),psi_array(:),bessel_j_1(:),bessel_n_1(:),bessel_j_2(:),bessel_n_2(:),energies(:),cross_secs(:)
+    real*8::delta,tandelta,k,sum,pi,new_x_diff,wavenumber,reduced_mass,hbar,mh,mkr,wavelength,r_max,correction
+    real*8,allocatable::x_array(:),big_x_array(:),V_array(:),psi_array(:),bessel_j_1(:),bessel_n_1(:),bessel_j_2(:),bessel_n_2(:),energies(:),cross_secs(:)
     integer::l,i,J,l_max,pos,pos_2,N
     procedure (two_pointing_func),pointer:: V_ptr => lennard_jones_potential_thijssen
     class(starting_conditions_for_lennard_jones),allocatable ::ustruct
@@ -18,8 +18,7 @@ program int_check
     r_max = 5.0_dp
     x_last = 15_dp
     h = 1.0e-4_dp 
-    x_array = my_arange(x_min,x_last,h)
-
+    big_x_array = my_arange(r_max,x_last,h)
     mh = 1.6735575e-27_dp !kg
     mkr = 1.3914984e-25_dp!kg
     hbar = 1.05457182e-34_dp!mks
@@ -38,12 +37,12 @@ program int_check
     factor = factor * 6.241506363094e+21
     print*,factor
 
-    N = 5000
+    N = 1000
     allocate(energies(N),cross_secs(N))
-    energies = my_linspace(1.0_dp,3.5_dp,N)
+    energies = my_linspace(0.1_dp,1.0_dp,N)
     epsilon_prime = epsilon/factor
 
-    print*,"epsilon_prime", epsilon_prime
+    !print*,"epsilon_prime", epsilon_prime
 
     l_max  = 6
     x_to_check = 5.0_dp
@@ -57,10 +56,12 @@ program int_check
         energy = energies(i)
         energy_prime = energy/factor
         print*, "energy in meV, energy in nat",energy,energy_prime
-
+        
         wavenumber = sqrt(2.0_dp*energy_prime) !in rho ^{-1}
         wavelength = 2.0_dp * pi / wavenumber
         new_x_diff = wavelength / 2.0_dp
+        x_array = my_arange(x_min,r_max+wavelength,h)
+
         pos = find_closest_index(x_array,r_max)
         pos_2 = find_closest_index(x_array,r_max+new_x_diff)
 
@@ -76,19 +77,16 @@ program int_check
         
         sum = 0.0_dp
         do l =  0,l_max
-            !print*,l
             V_array = create_effective_potential_array_for_lennard(v_ptr,x_array,l,epsilon_prime,r_max)
-
             psi_array = integrate_lennard(x_array,V_array,energy_prime,epsilon_prime)
-
-            !print*,"psi val", psi_array(pos),psi_array(pos_2)
-
             k = calculate_k(x_array,psi_array,pos,pos_2)
-            !print*,"k", k 
             tandelta = (k*bessel_j_1(l+1)-bessel_j_2(l+1))/(k*bessel_n_1(l+1)-bessel_n_2(l+1))
             delta = ATAN(tandelta)
-            !print*,"delta", delta
-            sum = sum + (2*l+1)*(sin(delta)**2)
+            !¬print*,"trying to find correction"
+            correction = calculate_correction_delta_l(big_x_array,l,epsilon_prime,wavenumber)
+            !correction = 0.0_dp
+            !print*,correction
+            sum = sum + (2*l+1)*(sin(delta+correction)**2)
         end do 
         sum = sum * 4.0_dp*pi/(wavenumber**2)
         print*,sum

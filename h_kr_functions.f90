@@ -31,7 +31,7 @@ module h_kr_functions
 
     function integrate_lennard(x_array,V_array,E,epsilon_prime) result(psi_array)
         real*8,intent(in)::x_array(:),V_array(:),epsilon_prime,E
-        real*8::psi_array(size(x_array)),psi_0,psi_1,h,hsquared_over_twelve,energy_minus_potential_array(size(x_array))
+        real*8::psi_array(size(x_array)),psi_0,psi_1,h,hsquared_over_twelve,e_minus_potential_array(size(x_array))
         class(starting_conditions_for_lennard_jones),allocatable ::ustruct
         integer::i
         ustruct = small_r_solution_for_lennard_jones(x_array(2),epsilon_prime)
@@ -40,19 +40,19 @@ module h_kr_functions
 
         h = x_array(2)-x_array(1)
         n = size(x_array)
-        energy_minus_potential_array = 2.0_dp*(E - V_array)
+        e_minus_potential_array = 2.0_dp*(E - V_array)
         !need the factor of two in conventional atomic units.
         hsquared_over_twelve = h*h/12.0_dp
 
 
 
 
-        psi_1 = numerov_get_step_two(-energy_minus_potential_array(2),-energy_minus_potential_array(1),-energy_minus_potential_array(3),h,hsquared_over_twelve,psi_0,ustruct%udot)
+        psi_1 = numerov_get_step_two(-e_minus_potential_array(2),-e_minus_potential_array(1),-e_minus_potential_array(3),h,hsquared_over_twelve,psi_0,ustruct%udot)
         !print*,"psi 1", psi_1
         psi_array(1) = psi_0
         psi_array(2) = psi_1
         do i = 2,n-1,1
-            psi_array(i+1) = numerov_next_step_s_zero(hsquared_over_twelve,psi_array(i),psi_array(i-1),energy_minus_potential_array(i+1),energy_minus_potential_array(i),energy_minus_potential_array(i-1))
+            psi_array(i+1) = numerov_next_step_s_zero(hsquared_over_twelve,psi_array(i),psi_array(i-1),e_minus_potential_array(i+1),e_minus_potential_array(i),e_minus_potential_array(i-1))
             if (psi_array(i+1)>10000.0_dp) then 
                 psi_array = psi_array/10000.0_dp
             end if
@@ -139,5 +139,27 @@ module h_kr_functions
         index = minloc(new_x,dim = 1)
 
     end function find_closest_index
+
+    function calculate_correction_delta_l(x_array,l,epsilon_prime,wavenumber) result(correction)
+        
+        real*8,intent(in)::x_array(:),epsilon_prime,wavenumber
+        integer,intent(in)::l
+        real*8::correction,v_array(size(x_array)) ,j_array(size(x_array)),temp(l+1),h
+        integer::i
+        procedure (two_pointing_func),pointer:: V_ptr => lennard_jones_potential_thijssen
+
+        v_array = create_effective_potential_array_for_lennard(V_ptr,x_array,0,epsilon_prime,x_array(size(x_array)))
+
+        j_array = wavenumber*x_array
+        do i = 1,size(x_array)
+            temp = spherical_j(l,j_array(i))
+            j_array(i) = temp(size(temp))
+        end do
+        h = x_array(2) - x_array(1)
+        j_array = (j_array**2)*v_array*(x_array**2)
+        correction = -2.0_dp*wavenumber*integrate_trapezium(h,j_array)
+    end function calculate_correction_delta_l
+
+
 
 end module h_kr_functions
