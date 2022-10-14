@@ -5,9 +5,10 @@ program int_check
     implicit none
 
     real*8::rho,epsilon,h,energy,x_last,x_min,epsilon_prime,energy_prime,factor,x_to_check
-    real*8::delta,tandelta,k,sum,pi,new_x_diff,wavenumber,reduced_mass,hbar,mh,mkr,wavelength,r_max,correction
+    real*8::delta,tandelta,k,sum,pi,new_x_diff,wavenumber,reduced_mass,hbar,mh,mkr,wavelength,r_max
     real*8,allocatable::x_array(:),big_x_array(:),V_array(:),psi_array(:),bessel_j_1(:),bessel_n_1(:),bessel_j_2(:),bessel_n_2(:),energies(:),cross_secs(:)
     integer::l,i,J,l_max,pos,pos_2,N
+    logical::correction
     procedure (two_pointing_func),pointer:: V_ptr => lennard_jones_potential_thijssen
     class(starting_conditions_for_lennard_jones),allocatable ::ustruct
     
@@ -16,13 +17,14 @@ program int_check
     !in units of rho
     x_min = 0.5_dp
     r_max = 5.0_dp
-    x_last = 15_dp
+    x_last = 15_dp !this is for the big integration for the correction term. 
     h = 1.0e-4_dp 
+    correction = .false. !calculate corrections using the integral in the book. v slow implemetation right now, set to false.
+
     big_x_array = my_arange(r_max,x_last,h)
     mh = 1.6735575e-27_dp !kg
     mkr = 1.3914984e-25_dp!kg
     hbar = 1.05457182e-34_dp!mks
-
     reduced_mass = mh*mkr/(mkr+mh)
     
 
@@ -82,11 +84,10 @@ program int_check
             k = calculate_k(x_array,psi_array,pos,pos_2)
             tandelta = (k*bessel_j_1(l+1)-bessel_j_2(l+1))/(k*bessel_n_1(l+1)-bessel_n_2(l+1))
             delta = ATAN(tandelta)
-            !¬print*,"trying to find correction"
-            correction = calculate_correction_delta_l(big_x_array,l,epsilon_prime,wavenumber)
-            !correction = 0.0_dp
-            !print*,correction
-            sum = sum + (2*l+1)*(sin(delta+correction)**2)
+            if (correction) then 
+                delta = delta + calculate_correction_delta_l(big_x_array,l,epsilon_prime,wavenumber)
+            end if 
+            sum = sum + (2*l+1)*(sin(delta)**2)
         end do 
         sum = sum * 4.0_dp*pi/(wavenumber**2)
         print*,sum
