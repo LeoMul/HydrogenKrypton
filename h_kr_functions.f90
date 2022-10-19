@@ -160,27 +160,23 @@ module h_kr_functions
         correction = -2.0_dp*wavenumber*integrate_trapezium(h,j_array)
     end function calculate_correction_delta_l
 
-    function calculate_cross_section_sum(x_array,v_array,l_array,energy_prime,epsilon_prime,pos,pos_2,bessel_j_1,bessel_j_2,bessel_n_1,bessel_n_2) result(sum)
+    function calculate_cross_section_l_term(x_array,v_array,l,energy_prime,epsilon_prime,pos,pos_2,bessel_j_1,bessel_j_2,bessel_n_1,bessel_n_2) result(sum)
         real*8,intent(in)::x_array(:),energy_prime,epsilon_prime,v_array(:)
-        integer,intent(in)::l_array(:),pos,pos_2
+        integer,intent(in)::l,pos,pos_2
         real*8::psi_array(size(x_array)),k,tandelta,delta,sum,bessel_j_1(:),bessel_j_2(:),bessel_n_1(:),bessel_n_2(:)
-        integer::i ,l 
 
-        do i =  1,size(l_array)
-            l = l_array(i)
-            print*,"ang",l
-            psi_array = integrate_lennard(x_array,v_array+create_centrifugal_barrier(x_array,l),energy_prime,epsilon_prime)
-            k = calculate_k(x_array,psi_array,pos,pos_2)
-            tandelta = (k*bessel_j_1(l+1)-bessel_j_2(l+1))/(k*bessel_n_1(l+1)-bessel_n_2(l+1))
-            delta = ATAN(tandelta)
-            !if (correction) then 
-            !    delta = delta + calculate_correction_delta_l(big_x_array,l,epsilon_prime,wavenumber)
-            !end if 
-            sum = sum + (2*l+1)*(sin(delta)**2)
-        end do
+        !print*,"ang",l
+        psi_array = integrate_lennard(x_array,v_array+create_centrifugal_barrier(x_array,l),energy_prime,epsilon_prime)
+        k = calculate_k(x_array,psi_array,pos,pos_2)
+        tandelta = (k*bessel_j_1(l+1)-bessel_j_2(l+1))/(k*bessel_n_1(l+1)-bessel_n_2(l+1))
+        delta = ATAN(tandelta)
+        !if (correction) then 
+        !    delta = delta + calculate_correction_delta_l(big_x_array,l,epsilon_prime,wavenumber)
+        !end if 
+        sum = (2*l+1)*(sin(delta)**2)
 
 
-    end function calculate_cross_section_sum
+    end function calculate_cross_section_l_term
 
     function create_l_array(l_max) result(l_array)
         integer,intent(in)::l_max 
