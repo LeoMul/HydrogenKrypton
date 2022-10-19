@@ -74,24 +74,35 @@ contains
 
     end function create_effective_potential_array
 
-    function create_effective_potential_array_for_lennard(V_ptr,x_array,l,epsilon,r_max) result(Veff)
+    function create_potential_array_for_lennard(V_ptr,x_array,epsilon,r_max) result(Veff)
         !for a normal potential either write a new function or set l = 0
         procedure (two_pointing_func),pointer:: V_ptr
 
         real*8,intent(in)::x_array(:),epsilon,r_max
-        integer,intent(in)::l
         real*8::Veff(size(x_array))
         integer::i
-        do i=1,size(x_array)
-            Veff(i) =  centrifugal_barrier(x_array(i),l)
+        
+        Veff = 0.0
 
+        do i=1,size(x_array)
             if (x_array(i) < r_max) then 
-                !apparantly we must cut off... according to the book
-                Veff(i) = Veff(i) + V_ptr(x_array(i),epsilon)  
+                Veff(i) = V_ptr(x_array(i),epsilon)  
             end if 
         end do
 
-    end function create_effective_potential_array_for_lennard
+    end function create_potential_array_for_lennard
+
+    function create_centrifugal_barrier(x_array,l) result (cent)
+        real*8,intent(in)::x_array(:)
+        integer,intent(in)::l
+        real*8::cent(size(x_array))
+        integer::i
+        do i=1,size(x_array)
+            cent(i) =  centrifugal_barrier(x_array(i),l)
+        end do
+
+    end function create_centrifugal_barrier
+
 
 
 

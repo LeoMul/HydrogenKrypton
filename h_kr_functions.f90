@@ -148,7 +148,7 @@ module h_kr_functions
         integer::i
         procedure (two_pointing_func),pointer:: V_ptr => lennard_jones_potential_thijssen
 
-        v_array = create_effective_potential_array_for_lennard(V_ptr,x_array,0,epsilon_prime,x_array(size(x_array)))
+        v_array = create_potential_array_for_lennard(V_ptr,x_array,epsilon_prime,x_array(size(x_array)))
 
         j_array = wavenumber*x_array
         do i = 1,size(x_array)
@@ -159,6 +159,37 @@ module h_kr_functions
         j_array = (j_array**2)*v_array*(x_array**2)
         correction = -2.0_dp*wavenumber*integrate_trapezium(h,j_array)
     end function calculate_correction_delta_l
+
+    function calculate_cross_section_sum(x_array,v_array,l_array,energy_prime,epsilon_prime,pos,pos_2,bessel_j_1,bessel_j_2,bessel_n_1,bessel_n_2) result(sum)
+        real*8,intent(in)::x_array(:),energy_prime,epsilon_prime,v_array(:)
+        integer,intent(in)::l_array(:),pos,pos_2
+        real*8::psi_array(size(x_array)),k,tandelta,delta,sum,bessel_j_1(:),bessel_j_2(:),bessel_n_1(:),bessel_n_2(:)
+        integer::i ,l 
+
+        do i =  1,size(l_array)
+            l = l_array(i)
+            print*,"ang",l
+            psi_array = integrate_lennard(x_array,v_array+create_centrifugal_barrier(x_array,l),energy_prime,epsilon_prime)
+            k = calculate_k(x_array,psi_array,pos,pos_2)
+            tandelta = (k*bessel_j_1(l+1)-bessel_j_2(l+1))/(k*bessel_n_1(l+1)-bessel_n_2(l+1))
+            delta = ATAN(tandelta)
+            !if (correction) then 
+            !    delta = delta + calculate_correction_delta_l(big_x_array,l,epsilon_prime,wavenumber)
+            !end if 
+            sum = sum + (2*l+1)*(sin(delta)**2)
+        end do
+
+
+    end function calculate_cross_section_sum
+
+    function create_l_array(l_max) result(l_array)
+        integer,intent(in)::l_max 
+        integer::l_array(l_max+1),i
+        do i = 1,size(l_array)
+            l_array(i) = i-1
+        end do
+
+    end function create_l_array
 
 
 
