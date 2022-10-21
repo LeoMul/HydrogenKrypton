@@ -160,10 +160,10 @@ module h_kr_functions
         correction = -2.0_dp*wavenumber*integrate_trapezium(h,j_array)
     end function calculate_correction_delta_l
 
-    function calculate_cross_section_l_term(x_array,v_array,l,energy_prime,epsilon_prime,pos,pos_2,bessel_j_1,bessel_j_2,bessel_n_1,bessel_n_2) result(sum)
+    function calculate_phase_shift_l_term(x_array,v_array,l,energy_prime,epsilon_prime,pos,pos_2,bessel_j_1,bessel_j_2,bessel_n_1,bessel_n_2) result(delta)
         real*8,intent(in)::x_array(:),energy_prime,epsilon_prime,v_array(:)
         integer,intent(in)::l,pos,pos_2
-        real*8::psi_array(size(x_array)),k,tandelta,delta,sum,bessel_j_1(:),bessel_j_2(:),bessel_n_1(:),bessel_n_2(:)
+        real*8::psi_array(size(x_array)),k,tandelta,delta,bessel_j_1(:),bessel_j_2(:),bessel_n_1(:),bessel_n_2(:)
 
         !print*,"ang",l
         psi_array = integrate_lennard(x_array,v_array+create_centrifugal_barrier(x_array,l),energy_prime,epsilon_prime)
@@ -173,10 +173,22 @@ module h_kr_functions
         !if (correction) then 
         !    delta = delta + calculate_correction_delta_l(big_x_array,l,epsilon_prime,wavenumber)
         !end if 
-        sum = (2*l+1)*(sin(delta)**2)
+        !sum = (2*l+1)*(sin(delta)**2)
+        
+
+    end function calculate_phase_shift_l_term
+
+    function calculate_cross_sec_term(l,delta) result (term)
+        real*8,intent(in):: delta 
+        integer,intent(in) :: l 
+        real*8 :: term 
+
+        term = (2*l+1) * (sin(delta)**2)
+
+    end function calculate_cross_sec_term
 
 
-    end function calculate_cross_section_l_term
+
 
     function create_l_array(l_max) result(l_array)
         integer,intent(in)::l_max 
@@ -187,6 +199,28 @@ module h_kr_functions
 
     end function create_l_array
 
-
+    subroutine StripSpaces(string)
+        !https://stackoverflow.com/questions/27179549/removing-whitespace-in-string
+        character(len=*) :: string
+        integer :: stringLen 
+        integer :: last, actual
+    
+        stringLen = len (string)
+        last = 1
+        actual = 1
+    
+        do while (actual < stringLen)
+            if (string(last:last) == ' ') then
+                actual = actual + 1
+                string(last:last) = string(actual:actual)
+                string(actual:actual) = ' '
+            else
+                last = last + 1
+                if (actual < last) &
+                    actual = last
+            endif
+        end do
+    
+        end subroutine
 
 end module h_kr_functions
