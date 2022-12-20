@@ -41,9 +41,9 @@ contains
 
         factor = (1.0_dp+hsquared_over_twelve*gnext)
         numerov_next_step_s_zero = 2.0_dp*ycurrent*(1.0_dp-5.0_dp*hsquared_over_twelve*gcurrent)
-        if (yprev .ne. 0.0_dp) then 
-            numerov_next_step_s_zero = numerov_next_step_s_zero-yprev *(1.0_dp+hsquared_over_twelve*gprev)
-        end if 
+        !if (yprev .ne. 0.0_dp) then 
+        numerov_next_step_s_zero = numerov_next_step_s_zero-yprev *(1.0_dp+hsquared_over_twelve*gprev)
+        !end if 
         numerov_next_step_s_zero = numerov_next_step_s_zero/factor
 
     end function numerov_next_step_s_zero
@@ -150,17 +150,17 @@ contains
         !ode to get an approximate solution to the second point
         !to get us started.
         real*8,intent(in)::f0,fmh,fh,hsquared_over_twelve,x0,xdot0,h
-        real*8::x_h,fac1,fac2
+        real*8::x_h,fac1,fac2,fac3
 
-        fac1 = 1.0_dp - hsquared_over_twelve * fmh
-        fac2 = 1.0_dp - hsquared_over_twelve * fh
-
-
-        x_h = 2.0_dp * (1.0_dp + 5.0_dp*hsquared_over_twelve*f0)*fac1*x0
-        x_h = x_h + 4.0_dp*h*xdot0 * (fac1-0.5_dp)
-
-        x_h = x_h/ (fac2*(fac1 - 0.5_dp)+fac1*(fac2 - 0.5_dp))
-        x_h = x_h/2.0_dp
+        fac1 = hsquared_over_twelve * fmh
+        fac2 = hsquared_over_twelve * f0
+        fac3 = (1.0_dp + 2.0_dp*fac1)*(1.0_dp + hsquared_over_twelve*fh)
+        fac3 = fac3 + (1.0_dp - fac1)*(1.0_dp + 2.0_dp * hsquared_over_twelve*fh)
+        x_h = (1.0_dp - fac1) * h * xdot0 + (1.0_dp + 2.0_dp * fac1)*(1.0_dp - 5.0_dp * fac2)*x0
+        
+        x_h = 2.0_dp * x_h
+        
+        x_h = x_h / fac3
 
     end function numerov_get_step_two
 

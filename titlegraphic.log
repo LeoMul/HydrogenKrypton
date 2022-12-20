@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.15)  21 NOV 2022 14:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.15)  25 NOV 2022 13:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**plot.tex
-(./plot.tex
+**titlegraphic.tex
+(./titlegraphic.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-01-21>
 (/usr/share/texlive/texmf-dist/tex/latex/base/minimal.cls
@@ -153,8 +153,8 @@ File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count269
 \l__pdf_internal_box=\box52
 )
-(./plot.aux)
-\openout1 = `plot.aux'.
+(./titlegraphic.aux)
+\openout1 = `titlegraphic.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 60.
 LaTeX Font Info:    ... okay on input line 60.
@@ -170,7 +170,8 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 60.
 LaTeX Font Info:    ... okay on input line 60.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 60.
 LaTeX Font Info:    ... okay on input line 60.
- (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count270
 \scratchdimen=\dimen159
@@ -229,12 +230,12 @@ e
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(0.0pt, 244.61386pt, 0.0pt)
-* v-part:(T,H,B)=(0.0pt, 142.23137pt, 0.0pt)
-* \paperwidth=244.61386pt
-* \paperheight=142.23137pt
-* \textwidth=244.61386pt
-* \textheight=142.23137pt
+* h-part:(L,W,R)=(0.0pt, 162.10562pt, 0.0pt)
+* v-part:(T,H,B)=(0.0pt, 94.65363pt, 0.0pt)
+* \paperwidth=162.10562pt
+* \paperheight=94.65363pt
+* \textwidth=162.10562pt
+* \textheight=94.65363pt
 * \oddsidemargin=-72.26999pt
 * \evensidemargin=-72.26999pt
 * \topmargin=-109.26999pt
@@ -258,50 +259,45 @@ e
 \gptboxheight=\skip53
 \gptboxwidth=\skip54
 \gptboxtext=\box54
-Package epstopdf Info: Source file: <plot-inc.eps>
-(epstopdf)                    date: 2022-11-21 14:50:40
-(epstopdf)                    size: 33643 bytes
-(epstopdf)             Output file: <plot-inc-eps-converted-to.pdf>
-(epstopdf)                    date: 2022-11-21 14:50:00
-(epstopdf)                    size: 10735 bytes
-(epstopdf)             Command: <repstopdf --outfile=plot-inc-eps-converted-to.
-pdf plot-inc.eps>
-(epstopdf)             \includegraphics on input line 168.
-runsystem(repstopdf --outfile=plot-inc-eps-converted-to.pdf plot-inc.eps)...exe
-cuted safely (allowed).
+Package epstopdf Info: Source file: <titlegraphic-inc.eps>
+(epstopdf)                    date: 2022-11-25 13:51:51
+(epstopdf)                    size: 33253 bytes
+(epstopdf)             Output file: <titlegraphic-inc-eps-converted-to.pdf>
+(epstopdf)                    date: 2022-11-25 13:51:37
+(epstopdf)                    size: 9107 bytes
+(epstopdf)             Command: <repstopdf --outfile=titlegraphic-inc-eps-conve
+rted-to.pdf titlegraphic-inc.eps>
+(epstopdf)             \includegraphics on input line 180.
+runsystem(repstopdf --outfile=titlegraphic-inc-eps-converted-to.pdf titlegraphi
+c-inc.eps)...executed safely (allowed).
 
-Package epstopdf Info: Result file: <plot-inc-eps-converted-to.pdf>
-(epstopdf)                    date: 2022-11-21 14:50:40
-(epstopdf)                    size: 10735 bytes.
-<plot-inc-eps-converted-to.pdf, id=1, 243.91125pt x 141.52875pt>
-File: plot-inc-eps-converted-to.pdf Graphic file (type pdf)
-<use plot-inc-eps-converted-to.pdf>
-Package pdftex.def Info: plot-inc-eps-converted-to.pdf  used on input line 168.
-
-(pdftex.def)             Requested size: 244.61778pt x 142.2432pt.
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./plot-inc-eps-converted
--to.pdf>] (./plot.aux)
+Package epstopdf Info: Result file: <titlegraphic-inc-eps-converted-to.pdf>
+(epstopdf)                    date: 2022-11-25 13:51:51
+(epstopdf)                    size: 9094 bytes.
+<titlegraphic-inc-eps-converted-to.pdf, id=1, 161.60374pt x 94.3525pt>
+File: titlegraphic-inc-eps-converted-to.pdf Graphic file (type pdf)
+<use titlegraphic-inc-eps-converted-to.pdf>
+Package pdftex.def Info: titlegraphic-inc-eps-converted-to.pdf  used on input l
+ine 180.
+(pdftex.def)             Requested size: 162.11377pt x 94.65314pt.
+[1 <./titlegraphic-inc-eps-converted-to.pdf>] (./titlegraphic.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 3322 strings out of 478287
- 53464 string characters out of 5849289
- 345879 words of memory out of 5000000
- 21479 multiletter control sequences out of 15000+600000
- 470476 words of font info for 31 fonts, out of 8000000 for 9000
+ 3317 strings out of 478287
+ 53778 string characters out of 5849289
+ 345881 words of memory out of 5000000
+ 21476 multiletter control sequences out of 15000+600000
+ 470022 words of font info for 29 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,7n,67p,216b,222s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf/fonts/type1/public/cm
--super/sfrm1000.pfb>
-Output written on plot.pdf (1 page, 46057 bytes).
+ 60i,6n,67p,224b,221s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on titlegraphic.pdf (1 page, 8045 bytes).
 PDF statistics:
- 31 PDF objects out of 1000 (max. 8388607)
- 18 compressed objects within 1 object stream
+ 10 PDF objects out of 1000 (max. 8388607)
+ 5 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

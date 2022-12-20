@@ -92,6 +92,8 @@ contains
 
     end function create_potential_array_for_lennard
 
+    
+
     function create_centrifugal_barrier(x_array,l) result (cent)
         real*8,intent(in)::x_array(:)
         integer,intent(in)::l

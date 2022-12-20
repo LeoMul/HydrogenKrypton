@@ -2,10 +2,10 @@
 \documentclass{minimal}
 % Set font size
 \makeatletter
-\def\@ptsize{0}
-\InputIfFileExists{size10.clo}{}{%
+\def\@ptsize{2}
+\InputIfFileExists{size12.clo}{}{%
    \GenericError{(gnuplot) \space\space\space\@spaces}{%
-      Gnuplot Error: File `size10.clo' not found! Could not set font size%
+      Gnuplot Error: File `size12.clo' not found! Could not set font size%
    }{See the gnuplot documentation for explanation.%
    }{For using a font size a file `size<fontsize>.clo' has to exist.
         Falling back ^^Jto default fontsize 10pt.}%
@@ -142,30 +142,29 @@
 \begin{picture}(4874.00,2834.00)%
     \gplgaddtomacro\gplbacktext{%
       \csname LTb\endcsname%%
-      \put(740,640){\makebox(0,0)[r]{\strut{}$0$}}%
-      \put(740,925){\makebox(0,0)[r]{\strut{}$100$}}%
-      \put(740,1209){\makebox(0,0)[r]{\strut{}$200$}}%
-      \put(740,1494){\makebox(0,0)[r]{\strut{}$300$}}%
-      \put(740,1779){\makebox(0,0)[r]{\strut{}$400$}}%
-      \put(740,2064){\makebox(0,0)[r]{\strut{}$500$}}%
-      \put(740,2348){\makebox(0,0)[r]{\strut{}$600$}}%
-      \put(740,2633){\makebox(0,0)[r]{\strut{}$700$}}%
-      \put(860,440){\makebox(0,0){\strut{}$0$}}%
-      \put(1382,440){\makebox(0,0){\strut{}$0.5$}}%
-      \put(1904,440){\makebox(0,0){\strut{}$1$}}%
-      \put(2426,440){\makebox(0,0){\strut{}$1.5$}}%
-      \put(2947,440){\makebox(0,0){\strut{}$2$}}%
-      \put(3469,440){\makebox(0,0){\strut{}$2.5$}}%
-      \put(3991,440){\makebox(0,0){\strut{}$3$}}%
-      \put(4513,440){\makebox(0,0){\strut{}$3.5$}}%
+      \put(888,989){\makebox(0,0)[r]{\strut{}$150$}}%
+      \put(888,1496){\makebox(0,0)[r]{\strut{}$300$}}%
+      \put(888,2003){\makebox(0,0)[r]{\strut{}$450$}}%
+      \put(888,2509){\makebox(0,0)[r]{\strut{}$600$}}%
+      \put(1032,528){\makebox(0,0){\strut{}$0$}}%
+      \put(1519,528){\makebox(0,0){\strut{}$0.5$}}%
+      \put(2006,528){\makebox(0,0){\strut{}$1$}}%
+      \put(2493,528){\makebox(0,0){\strut{}$1.5$}}%
+      \put(2980,528){\makebox(0,0){\strut{}$2$}}%
+      \put(3467,528){\makebox(0,0){\strut{}$2.5$}}%
+      \put(3954,528){\makebox(0,0){\strut{}$3$}}%
+      \put(4441,528){\makebox(0,0){\strut{}$3.5$}}%
+      \put(1616,2509){\makebox(0,0)[l]{\strut{}$l = 4$}}%
+      \put(2493,2003){\makebox(0,0)[l]{\strut{}$l = 5$}}%
+      \put(3564,1749){\makebox(0,0)[l]{\strut{}$l = 6$}}%
     }%
     \gplgaddtomacro\gplfronttext{%
       \csname LTb\endcsname%%
-      \put(190,1636){\rotatebox{-270}{\makebox(0,0){\strut{}$\sigma$/ Å$^2$}}}%
-      \put(2686,140){\makebox(0,0){\strut{}$E$/ meV}}%
+      \put(228,1680){\rotatebox{-270}{\makebox(0,0){\strut{}$\sigma$/ Å$^2$}}}%
+      \put(2736,168){\makebox(0,0){\strut{}$E$/ meV}}%
     }%
     \gplbacktext
-    \put(0,0){\includegraphics[width={243.70bp},height={141.70bp}]{plot-inc}}%
+    \put(0,0){\includegraphics[width={243.70bp},height={141.70bp}]{plot_with_labels-inc}}%
     \gplfronttext
   \end{picture}%
 \endgroup

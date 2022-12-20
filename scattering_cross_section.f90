@@ -10,8 +10,13 @@ program int_check
     real*8::rho,epsilon,h,energy,x_last,x_min,epsilon_prime,energy_prime,factor,x_to_check,Emin,Elast
     real*8::sum,pi,new_x_diff,wavenumber,reduced_mass,hbar,mh,mkr,wavelength,r_max,delta,norm_factor,term
     real*8,allocatable::x_array(:),big_x_array(:),V_array(:),bessel_j_1(:),bessel_n_1(:),bessel_j_2(:),bessel_n_2(:),energies(:),cross_secs(:),phases(:),local_phases(:)
+
+    real* 8,allocatable :: ustartarray(:,:)
+
+
     integer::l,i,J,l_max,pos,pos_2,N,a,start,end_ind
     integer,allocatable::l_array(:)
+    real * 8,allocatable::phases_l(:)
     logical::correction
     procedure (two_pointing_func),pointer:: V_ptr => lennard_jones_potential_thijssen
     class(starting_conditions_for_lennard_jones),allocatable ::ustruct
@@ -19,12 +24,13 @@ program int_check
     character*214::string
     character*250::file_name_1,file_name_2
 
-
+    !mpi stuff
     integer :: num_energies_per_proc
     real*8,allocatable:: energies_on_this_processor(:), local_cross_secs(:),local_terms(:),terms(:)
     integer :: ierr 
     integer :: rank ,root
     integer :: nprocs 
+
 
     call MPI_INIT(ierr)
     call MPI_COMM_SIZE(MPI_COMM_WORLD,nprocs,ierr)
@@ -36,7 +42,7 @@ program int_check
     x_min = 0.5_dp
     r_max = 5.0_dp
     x_last = 15_dp !this is for the big integration for the correction term. 
-    h = 1.0e-4_dp 
+    h = 1.0e-3_dp 
     correction = .false. !calculate corrections using the integral in the book. v slow implemetation right now, set to false.
 
     big_x_array = my_arange(r_max,x_last,h)
@@ -52,15 +58,15 @@ program int_check
     factor = factor * 6.241506363094e+21
     !print*,factor
     Emin = 0.1_dp 
-    Elast = 3.2_dp
-    l_max  = 6
+    Elast = 3.5_dp
+    l_max  = 7
     x_to_check = 5.0_dp
     pi = 3.14159265359_dp
     sum = 0.0_dp
-    allocate(l_array(l_max+1))
+    allocate(l_array(l_max+1),phases_l(l_max+1))
     l_array = create_l_array(l_max)
 
-    N = 50
+    N = 5000
     N = N - modulo(N,nprocs) 
     num_energies_per_proc = N/nprocs
     if (rank == root) then 
@@ -69,13 +75,17 @@ program int_check
     allocate(energies(N),cross_secs(N),phases((l_max+1)*N),terms((l_max+1)*N))
     allocate(energies_on_this_processor(num_energies_per_proc),local_cross_secs(num_energies_per_proc),local_phases((l_max+1)*num_energies_per_proc),local_terms((l_max+1)*num_energies_per_proc))
     
+    allocate(ustartarray(2,l_max+1))
+
+
     energies = my_linspace(Emin,Elast,N)
     epsilon_prime = epsilon/factor
 
     start = rank * num_energies_per_proc + 1 
     end_ind = (rank+1) * num_energies_per_proc
     energies_on_this_processor = energies(start:end_ind)
-    
+    print*,size(energies_on_this_processor)
+
     do i = 1,num_energies_per_proc
         sum = 0.0_dp
         energy = energies_on_this_processor(i)
@@ -83,27 +93,37 @@ program int_check
         wavenumber = sqrt(2.0_dp*energy_prime) !in rho ^{-1}
         wavelength = 2.0_dp * pi / wavenumber
         new_x_diff = wavelength / 2.0_dp
-        x_array = my_arange(x_min,r_max+wavelength,h)
 
+        x_array = my_arange(x_min,r_max+wavelength/ 2.0_dp,h)
         pos = find_closest_index(x_array,r_max)
-        pos_2 = find_closest_index(x_array,r_max+new_x_diff)
-        bessel_j_1 = spherical_j(l_max,wavenumber*(x_array(pos)))
-        bessel_n_1 = spherical_n(l_max,wavenumber*(x_array(pos)))
-        bessel_j_2 = spherical_j(l_max,wavenumber*(x_array(pos_2)))
-        bessel_n_2 = spherical_n(l_max,wavenumber*(x_array(pos_2)))
+        !pos_2 = find_closest_index(x_array,r_max+new_x_diff)
+        !bessel_j_1 = spherical_j(l_max,wavenumber*(x_array(pos)))
+        !bessel_n_1 = spherical_n(l_max,wavenumber*(x_array(pos)))
+        !bessel_j_2 = spherical_j(l_max,wavenumber*(x_array(pos_2)))
+        !bessel_n_2 = spherical_n(l_max,wavenumber*(x_array(pos_2)))
         V_array = create_potential_array_for_lennard(v_ptr,x_array,epsilon_prime,r_max)
         
-        do a=1,size(l_array)
-            delta = calculate_phase_shift_l_term(x_array,V_array,l_array(a),energy_prime,epsilon_prime,pos,pos_2,bessel_j_1,bessel_j_2,bessel_n_1,bessel_n_2)
-            term = calculate_cross_sec_term(l_array(a),delta)
-            !print*,term
+        !do a=1,size(l_array)
+        !    delta = calculate_phase_shift_l_term(x_array,V_array,l_array(a),energy_prime,epsilon_prime,pos,pos_2,bessel_j_1,bessel_j_2,bessel_n_1,bessel_n_2)
+        !    !delta = delta + calculate_correction_delta_l(r_max,l_array(a),epsilon_prime,wavenumber,h)
+        !    term = calculate_cross_sec_term(l_array(a),delta)
+        !    !print*,term
+        !    sum = sum + term
+        !    !print*,(i-1)*l_max+a
+        !    local_phases((i-1)*(l_max+1)+a) = delta
+        !    local_terms((i-1)*(l_max+1)+a) = term
+!
+        !end do
+        ustartarray = numerov_start_lennard(epsilon_prime,x_min,energy_prime,h,l_max)
+        phases_l = find_phase_shifts(ustartarray,energy_prime,l_max,x_array,V_array,pos,h)
+        do l = 0,l_max
+            delta = phases_l(l+1)
+            term = (2.0_dp * l + 1.0_dp) * (sin(delta)**2)
             sum = sum + term
-            !print*,(i-1)*l_max+a
-            local_phases((i-1)*(l_max+1)+a) = delta
-            local_terms((i-1)*(l_max+1)+a) = term
+            local_phases((i-1)*(l_max+1)+l+1) = delta
+            local_terms((i-1)*(l_max+1)+l+1) = term
+        end do 
 
-        end do
-        
         sum = sum * 4.0_dp * pi / wavenumber**2
         local_cross_secs(i) = sum
         
@@ -183,6 +203,7 @@ program int_check
                     write(1,fmt="(1x,a)",advance = "no") " "
                     norm_factor = 2.0_dp*pi/(energies(i)/factor)
                     !print*,"new energy"
+
                     do J = 1,size(l_array)
                         !print*,(i-1)*(l_max+1)+J
                         write(1,FMT,advance = "no") phases((i-1)*(l_max+1)+J)

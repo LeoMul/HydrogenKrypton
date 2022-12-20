@@ -1,15 +1,15 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.15)  21 NOV 2022 14:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.9.15)  28 NOV 2022 15:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**plot.tex
-(./plot.tex
+**plot_with_labels_and_exp.tex
+(./plot_with_labels_and_exp.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-01-21>
 (/usr/share/texlive/texmf-dist/tex/latex/base/minimal.cls
 Document Class: minimal 2001/05/25 Standard LaTeX minimal class
-) (/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
-File: size10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
+) (/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
@@ -153,8 +153,8 @@ File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count269
 \l__pdf_internal_box=\box52
 )
-(./plot.aux)
-\openout1 = `plot.aux'.
+(./plot_with_labels_and_exp.aux)
+\openout1 = `plot_with_labels_and_exp.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 60.
 LaTeX Font Info:    ... okay on input line 60.
@@ -170,7 +170,8 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 60.
 LaTeX Font Info:    ... okay on input line 60.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 60.
 LaTeX Font Info:    ... okay on input line 60.
- (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count270
 \scratchdimen=\dimen159
@@ -240,12 +241,12 @@ e
 * \topmargin=-109.26999pt
 * \headheight=12.0pt
 * \headsep=25.0pt
-* \topskip=10.0pt
+* \topskip=12.0pt
 * \footskip=30.0pt
-* \marginparwidth=3.0pt
-* \marginparsep=11.0pt
+* \marginparwidth=4.0pt
+* \marginparsep=10.0pt
 * \columnsep=0.0pt
-* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
@@ -258,50 +259,54 @@ e
 \gptboxheight=\skip53
 \gptboxwidth=\skip54
 \gptboxtext=\box54
-Package epstopdf Info: Source file: <plot-inc.eps>
-(epstopdf)                    date: 2022-11-21 14:50:40
-(epstopdf)                    size: 33643 bytes
-(epstopdf)             Output file: <plot-inc-eps-converted-to.pdf>
-(epstopdf)                    date: 2022-11-21 14:50:00
-(epstopdf)                    size: 10735 bytes
-(epstopdf)             Command: <repstopdf --outfile=plot-inc-eps-converted-to.
-pdf plot-inc.eps>
-(epstopdf)             \includegraphics on input line 168.
-runsystem(repstopdf --outfile=plot-inc-eps-converted-to.pdf plot-inc.eps)...exe
-cuted safely (allowed).
+Package epstopdf Info: Source file: <plot_with_labels_and_exp-inc.eps>
+(epstopdf)                    date: 2022-11-28 15:51:40
+(epstopdf)                    size: 34389 bytes
+(epstopdf)             Output file: <plot_with_labels_and_exp-inc-eps-converted
+-to.pdf>
+(epstopdf)                    date: 2022-11-28 15:51:07
+(epstopdf)                    size: 11649 bytes
+(epstopdf)             Command: <repstopdf --outfile=plot_with_labels_and_exp-i
+nc-eps-converted-to.pdf plot_with_labels_and_exp-inc.eps>
+(epstopdf)             \includegraphics on input line 172.
+runsystem(repstopdf --outfile=plot_with_labels_and_exp-inc-eps-converted-to.pdf
+ plot_with_labels_and_exp-inc.eps)...executed safely (allowed).
 
-Package epstopdf Info: Result file: <plot-inc-eps-converted-to.pdf>
-(epstopdf)                    date: 2022-11-21 14:50:40
-(epstopdf)                    size: 10735 bytes.
-<plot-inc-eps-converted-to.pdf, id=1, 243.91125pt x 141.52875pt>
-File: plot-inc-eps-converted-to.pdf Graphic file (type pdf)
-<use plot-inc-eps-converted-to.pdf>
-Package pdftex.def Info: plot-inc-eps-converted-to.pdf  used on input line 168.
+Package epstopdf Info: Result file: <plot_with_labels_and_exp-inc-eps-converted
+-to.pdf>
+(epstopdf)                    date: 2022-11-28 15:51:40
+(epstopdf)                    size: 11650 bytes.
+<plot_with_labels_and_exp-inc-eps-converted-to.pdf, id=1, 243.91125pt x 141.528
+75pt>
+File: plot_with_labels_and_exp-inc-eps-converted-to.pdf Graphic file (type pdf)
 
+<use plot_with_labels_and_exp-inc-eps-converted-to.pdf>
+Package pdftex.def Info: plot_with_labels_and_exp-inc-eps-converted-to.pdf  use
+d on input line 172.
 (pdftex.def)             Requested size: 244.61778pt x 142.2432pt.
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./plot-inc-eps-converted
--to.pdf>] (./plot.aux)
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./plot_with_labels_and_e
+xp-inc-eps-converted-to.pdf>] (./plot_with_labels_and_exp.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 3322 strings out of 478287
- 53464 string characters out of 5849289
- 345879 words of memory out of 5000000
- 21479 multiletter control sequences out of 15000+600000
- 470476 words of font info for 31 fonts, out of 8000000 for 9000
+ 3342 strings out of 478287
+ 54574 string characters out of 5849289
+ 346940 words of memory out of 5000000
+ 21489 multiletter control sequences out of 15000+600000
+ 474202 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,7n,67p,216b,222s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,7n,67p,236b,222s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf/fonts/type1/public/cm
--super/sfrm1000.pfb>
-Output written on plot.pdf (1 page, 46057 bytes).
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf/fonts/type1/public/cm
+-super/sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on plot_with_labels_and_exp.pdf (1 page, 56024 bytes).
 PDF statistics:
- 31 PDF objects out of 1000 (max. 8388607)
- 18 compressed objects within 1 object stream
+ 36 PDF objects out of 1000 (max. 8388607)
+ 21 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
