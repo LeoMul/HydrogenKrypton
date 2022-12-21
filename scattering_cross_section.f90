@@ -42,7 +42,7 @@ program int_check
     x_min = 0.5_dp
     r_max = 5.0_dp
     x_last = 15_dp !this is for the big integration for the correction term. 
-    h = 1.0e-3_dp 
+    h = 1.0e-5_dp 
     correction = .false. !calculate corrections using the integral in the book. v slow implemetation right now, set to false.
 
     big_x_array = my_arange(r_max,x_last,h)
@@ -58,7 +58,7 @@ program int_check
     factor = factor * 6.241506363094e+21
     !print*,factor
     Emin = 0.1_dp 
-    Elast = 3.5_dp
+    Elast = 0.2_dp
     l_max  = 7
     x_to_check = 5.0_dp
     pi = 3.14159265359_dp
@@ -66,7 +66,7 @@ program int_check
     allocate(l_array(l_max+1),phases_l(l_max+1))
     l_array = create_l_array(l_max)
 
-    N = 5000
+    N = 50
     N = N - modulo(N,nprocs) 
     num_energies_per_proc = N/nprocs
     if (rank == root) then 
@@ -136,7 +136,7 @@ program int_check
 
     if (rank == root) then 
         print*,""
-        WRITE (string_1, '(a4,F20.3,a4,F20.3,a1,i48.6)') "Emin", Emin,"Emax",Elast,"N",N     
+        WRITE (string_1, '(a4,F20.3,a4,F20.3,a1,i48.6,a1,F20.6)') "Emin", Emin,"Emax",Elast,"N",N,"h",h
         string = "cross_sec_"//string_1
         file_name_1 = string//".dat"
         file_name_1=trim(adjustl(file_name_1))
