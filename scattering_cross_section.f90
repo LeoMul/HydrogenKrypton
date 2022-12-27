@@ -42,7 +42,7 @@ program int_check
     x_min = 0.5_dp
     r_max = 5.0_dp
     x_last = 15_dp !this is for the big integration for the correction term. 
-    h = 1.0e-5_dp 
+    h = 1.0e-3_dp 
     correction = .false. !calculate corrections using the integral in the book. v slow implemetation right now, set to false.
 
     big_x_array = my_arange(r_max,x_last,h)
@@ -58,7 +58,7 @@ program int_check
     factor = factor * 6.241506363094e+21
     !print*,factor
     Emin = 0.1_dp 
-    Elast = 0.2_dp
+    Elast = 3.2_dp
     l_max  = 7
     x_to_check = 5.0_dp
     pi = 3.14159265359_dp
@@ -66,7 +66,7 @@ program int_check
     allocate(l_array(l_max+1),phases_l(l_max+1))
     l_array = create_l_array(l_max)
 
-    N = 50
+    N = 1000
     N = N - modulo(N,nprocs) 
     num_energies_per_proc = N/nprocs
     if (rank == root) then 
@@ -94,7 +94,7 @@ program int_check
         wavelength = 2.0_dp * pi / wavenumber
         new_x_diff = wavelength / 2.0_dp
 
-        x_array = my_arange(x_min,r_max+wavelength/ 2.0_dp,h)
+        x_array = my_arange(x_min,r_max+0.75_dp*wavelength,h)
         pos = find_closest_index(x_array,r_max)
         !pos_2 = find_closest_index(x_array,r_max+new_x_diff)
         !bessel_j_1 = spherical_j(l_max,wavenumber*(x_array(pos)))
