@@ -5,10 +5,10 @@ from matplotlib.ticker import LinearLocator
 from scipy import special as s
 import cmath
 
-data = np.loadtxt("phasesEmin0.100Emax3.500N000996.dat")
+data = np.loadtxt("DataFiles/phasesEmin0.100Emax3.200N009996h0.000010.dat")
 energies = data[:,0]
 l_array = (0,1,2,3,4,5,6)
-theta = np.linspace(0,np.pi,1000)
+theta = np.linspace(0,np.pi,100)
 costheta = np.cos(theta)
 mu = 1.6537e-27
 hbar = 1.05457182e-34
@@ -86,4 +86,4 @@ def create_plot():
 
 
 
-#create_plot()
+create_plot()
