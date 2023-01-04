@@ -92,6 +92,21 @@ contains
 
     end function create_potential_array_for_lennard
 
+    function create_potential_array_for_screened(x_array,epsilon,r_max) result (veff)
+        real*8,intent(in)::x_array(:),epsilon,r_max
+        real*8::Veff(size(x_array))
+        integer::i
+        
+        Veff = 0.0
+
+        do i=1,size(x_array)
+            if (x_array(i) < r_max) then 
+                Veff(i) = screened_coulomb(epsilon,x_array(i))
+            end if 
+        end do
+    end function 
+
+
     
 
     function create_centrifugal_barrier(x_array,l) result (cent)
@@ -128,6 +143,14 @@ contains
         real*8 :: V
         V = -1.0_dp/r
     end function coulomb_potential
+
+    function screened_coulomb(alpha,r) result(V)
+        implicit none
+        real*8, intent(in) :: r,alpha
+        real*8 :: V
+        V = exp(-alpha*r)/r
+    end function
+
 
     function zero_potential(x)
         !free particle

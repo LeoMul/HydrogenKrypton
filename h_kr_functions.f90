@@ -345,6 +345,22 @@ module h_kr_functions
 
     end function 
 
+    function numerov_start_screened(h,l_max) result (ustartarray)
+        real * 8,intent(in) ::h
+        integer, intent(in) :: l_max
+        real * 8 :: ustartarray(2,l_max+1) ,u1,u0
+        integer :: l 
+     
+
+        do l = 0,l_max
+            u0 = h**(l+1)
+            u1 =(2.0_dp*h)**(l+1)
+            ustartarray(1,l+1) = u0
+            ustartarray(2,l+1) = u1
+        end do
+        
+
+    end function 
 
 
 

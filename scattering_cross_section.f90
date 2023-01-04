@@ -66,7 +66,7 @@ program int_check
     allocate(l_array(l_max+1),phases_l(l_max+1))
     l_array = create_l_array(l_max)
 
-    N = 1000
+    N = 20000
     N = N - modulo(N,nprocs) 
     num_energies_per_proc = N/nprocs
     if (rank == root) then 
