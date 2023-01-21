@@ -40,8 +40,8 @@ program int_check
     !position stuff
     !in units of rho
     
-    alpha = 1.0_dp
-    r_max = 20.0_dp
+    alpha = 0.1_dp
+    r_max = 10.0_dp / alpha 
     h = 1.0e-3_dp 
     x_min = h
 
@@ -50,8 +50,8 @@ program int_check
     !Parameters and stuff
     l = 0
     Emin = 0.1_dp 
-    Elast = 100.0_dp
-    l_max  = 10
+    Elast = 10.0_dp
+    l_max  = 20
     x_to_check = 5.0_dp
     pi = 3.14159265359_dp
     sum = 0.0_dp
