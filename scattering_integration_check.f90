@@ -4,9 +4,9 @@ program int_check
     use h_kr_functions
     implicit none  
 
-    real * 8 :: h ,mh,mkr,hbar,reduced_mass,epsilon,epsilonprime,factor,rho ,energy,wavenumber,wavelength,pi,u0,u1,u_we_care(2),phase,spherj1(1),spherj2(1),sphern1(1),sphern2(1),num,den,frac
+    real * 8 :: h ,mh,mkr,hbar,reduced_mass,epsilon,epsilonprime,factor,rho ,energy,wavenumber,wavelength,pi,u0,u1,u_we_care(2),phase,num,den,frac
     integer :: l,i,index,index_2
-    real * 8,allocatable::u_array(:),V_array(:),x_array(:),g_array(:),ustartarray(:,:),vtilde_array(:)
+    real * 8,allocatable::u_array(:),V_array(:),x_array(:),g_array(:),ustartarray(:,:),vtilde_array(:),spherj1(:),spherj2(:),sphern1(:),sphern2(:)
     character*100::string
     procedure (two_pointing_func),pointer:: V_ptr => lennard_jones_potential_thijssen
 
@@ -17,25 +17,28 @@ program int_check
     hbar = 1.05457182e-34_dp!mks
     reduced_mass = mh*mkr/(mkr+mh)
     
-    epsilon = 5.90_dp !meV
+    !epsilon = 5.90_dp !meV
+    epsilon = 0.0_dp
     rho = 3.57_dp !in agstroms
     factor = hbar**2 / (reduced_mass * (rho*1e-10_dp)**2)!mks
     factor = factor * 6.241506363094e+21
     epsilonprime = epsilon/factor
-    h = 1.0e-7_dp 
-    energy = 0.1_dp/factor
+    h = 1.0e-6_dp 
+    energy = 0.48091_dp/factor
     wavenumber = sqrt(2.0_dp*energy) 
     wavelength = 2.0_dp * pi / wavenumber
 
     x_array = my_arange(0.5_dp,5.0_dp + wavelength,h)
     V_array = create_potential_array_for_lennard(V_ptr,x_array,epsilonprime,5.0_dp)
     l = 0
+    allocate(spherj1(l+1),spherj2(l+1),sphern1(l+1),sphern2(l+1))
     vtilde_array = V_array + create_centrifugal_barrier(x_array,l)
     g_array = energy - vtilde_array 
     g_array = h*h * g_array / 6.0_dp 
     frac = 0.75_dp
-    ustartarray = numerov_start_lennard(epsilonprime,0.5_dp,energy,h,l)
 
+    ustartarray = numerov_start_lennard(epsilonprime,0.5_dp,energy,h,l)
+    
     allocate(u_array(size(x_array)))
 
     u0 = ustartarray(1,l+1)
@@ -52,7 +55,7 @@ program int_check
     sphern2 = spherical_n(l,wavenumber*x_array(index_2))
 
     print*, "INTEGRATION STEP", h
-
+    print*,"WAVENUMBER",wavenumber
     print*,"kx values"
     print*,wavenumber*x_array(index)
     print*,wavenumber*x_array(index_2)

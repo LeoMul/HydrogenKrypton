@@ -147,7 +147,6 @@ module h_kr_functions
     function find_closest_index(x_array,desired_x) result(index)
         real*8,intent(in)::x_array(:),desired_x
         integer::index,j
-        real*8::new_x(size(x_array))
         !new_x = abs(x_array-desired_x)
         !index = minloc(new_x,dim = 1)
         do j = size(x_array),1,-1

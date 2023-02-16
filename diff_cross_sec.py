@@ -8,7 +8,7 @@ import cmath
 data = np.loadtxt("DataFiles/phasesEmin0.100Emax3.200N009996h0.000010.dat")
 energies = data[:,0]
 l_array = (0,1,2,3,4,5,6)
-theta = np.linspace(0,np.pi,100)
+theta = np.linspace(0,np.pi,500)
 costheta = np.cos(theta)
 mu = 1.6537e-27
 hbar = 1.05457182e-34
@@ -36,6 +36,15 @@ def make_cross_sec_matrix():
     return dcsa_matrix
 
 dcsa_matrix = make_cross_sec_matrix()
+
+f = open("dcsa_data.dat",'w')
+f.write("theta      energy       dcsa \n")
+for i in range(0,len(theta)):
+    for j in range(0,len(energies)):
+        string_to_write = str(theta[i]) + " " + str(energies[j]) + " "  + str(dcsa_matrix[i,j]) + "\n"
+        f.write(string_to_write)
+
+f.close()
 print(dcsa_matrix)
 
 def solid_angle_integrate(diffcsa,theta):
